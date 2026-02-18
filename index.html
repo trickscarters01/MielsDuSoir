@@ -1,308 +1,596 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Miels">
-    <title>Miels Du Soir</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;600;700&display=swap');
-        
-        :root {
-            --bg-cream: #FBF9F4;
-            --btn-taupe: #B7B4AF;
-            --text-dark: #1A1A1A;
-        }
-
-        body { 
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-cream);
-            color: var(--text-dark);
-            margin: 0;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            overscroll-behavior-y: contain;
-        }
-        
-        .font-serif { font-family: 'Cormorant Garamond', serif; }
-        
-        /* Ajustements Safe Areas iPhone 16 */
-        .safe-pt { padding-top: calc(env(safe-area-inset-top) + 12px); }
-        .safe-pb { padding-bottom: calc(env(safe-area-inset-bottom) + 20px); }
-
-        /* Carte d'écriture style photo */
-        .input-card {
-            background: white;
-            border-radius: 40px;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.02);
-            transition: transform 0.3s ease;
-        }
-
-        /* Toggle Navigation style photo */
-        .nav-toggle {
-            background: #F2F0EB;
-            border-radius: 50px;
-            padding: 4px;
-        }
-        .nav-btn {
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.2s ease;
-        }
-        .nav-btn.active {
-            background: white;
-            color: #1a1a1a;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .nav-btn.inactive {
-            color: #BCB9B4;
-        }
-
-        /* Bouton "Faire couler le miel" */
-        .btn-pour {
-            background-color: var(--btn-taupe);
-            border-radius: 30px;
-            color: white;
-            font-weight: 700;
-            font-size: 11px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: all 0.2s;
-        }
-        .btn-pour:active { transform: scale(0.97); opacity: 0.9; }
-
-        /* Sélecteurs épurés */
-        .select-custom {
-            background-color: white;
-            border-radius: 20px;
-            padding: 16px 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 18px center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
-
-        .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Miels Du Soir">
+<title>Miels Du Soir</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital@0;1&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#f5efe6;--gold:#c9a96e;--dark:#1a1108;--amber:#8b5e2a;--text:#2d1f0e;--muted:#9a8070;--card:rgba(255,252,245,0.95);--shadow:0 8px 40px rgba(139,94,42,0.12);--radius:20px;--font-serif:'Cormorant Garamond',Georgia,serif;--font-display:'Playfair Display',serif;--font-mono:'Courier Prime',monospace;--font-script:'Dancing Script',cursive}
+body.theme-nuit{--cream:#0e0c09;--card:rgba(20,18,14,0.97);--text:#f0e8d8;--muted:#8a7a6a;--shadow:0 8px 40px rgba(0,0,0,0.5)}
+body.theme-pur{--cream:#ffffff;--card:rgba(255,255,255,0.98);--text:#111;--muted:#888;--gold:#333;--shadow:0 4px 20px rgba(0,0,0,0.07)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:var(--font-serif);background:var(--cream);color:var(--text);transition:background .5s,color .5s;overflow:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+#splash{position:fixed;inset:0;background:#0e0b06;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .9s ease,transform .9s ease}
+#splash.hide{opacity:0;transform:scale(1.04);pointer-events:none}
+.splash-honey{font-size:3.2rem;margin-bottom:.8rem;animation:honeypulse 2s infinite}
+.splash-title{font-family:var(--font-display);font-size:2.6rem;color:#c9a96e;font-style:italic;letter-spacing:.04em;animation:fadeUp 1s ease both}
+.splash-sub{color:#7a6a5a;font-size:.8rem;margin-top:.4rem;letter-spacing:.25em;text-transform:uppercase;animation:fadeUp 1.3s ease both}
+@keyframes honeypulse{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.12) rotate(3deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+#app{position:fixed;inset:0;display:flex;flex-direction:column;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);z-index:1}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 8px;flex-shrink:0}
+.logo{font-family:var(--font-display);font-size:1.4rem;font-style:italic;color:var(--gold);letter-spacing:.02em}
+.logo small{font-style:normal;font-size:.75rem;opacity:.7;margin-left:2px}
+.header-right{display:flex;gap:8px}
+.icon-btn{width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,110,.25);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(139,94,42,.08)}
+.icon-btn:active{transform:scale(.9)}
+.tabs{display:flex;padding:0 18px 8px;gap:0;flex-shrink:0;border-bottom:1px solid rgba(201,169,110,.12)}
+.tab{flex:1;padding:8px 4px;border:none;background:transparent;font-family:var(--font-serif);font-size:.82rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .25s;letter-spacing:.06em}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);font-weight:600}
+.page{display:none;flex-direction:column;flex:1;overflow:hidden}
+.page.active{display:flex}
+.scroll-area{flex:1;overflow-y:auto;padding:14px 18px 24px;-webkit-overflow-scrolling:touch}
+.scroll-area::-webkit-scrollbar{display:none}
+.card{background:var(--card);border-radius:var(--radius);padding:15px;margin-bottom:12px;box-shadow:var(--shadow);border:1px solid rgba(201,169,110,.13);transition:background .5s}
+.lbl{font-size:.68rem;letter-spacing:.13em;color:var(--muted);text-transform:uppercase;margin-bottom:5px;font-family:var(--font-serif)}
+.style-pills{display:flex;gap:7px;margin-bottom:13px}
+.pill{padding:7px 15px;border-radius:30px;border:1.5px solid rgba(201,169,110,.35);background:transparent;font-family:var(--font-serif);font-size:.82rem;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.03em;flex:1;text-align:center}
+.pill.active{background:var(--gold);border-color:var(--gold);color:#fff}
+select{width:100%;padding:10px 14px;border:1.5px solid rgba(201,169,110,.28);border-radius:12px;background:var(--card);font-family:var(--font-serif);font-size:.88rem;color:var(--text);appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23c9a96e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;cursor:pointer;margin-bottom:9px;transition:border-color .2s}
+select:focus{outline:none;border-color:var(--gold)}
+textarea{width:100%;border:1.5px solid rgba(201,169,110,.28);border-radius:12px;padding:11px 13px;font-family:var(--font-serif);font-size:.95rem;color:var(--text);background:var(--card);resize:none;min-height:75px;line-height:1.6;transition:border-color .2s,background .5s}
+textarea:focus{outline:none;border-color:var(--gold)}
+textarea::placeholder{color:var(--muted);font-style:italic}
+.row{display:flex;gap:8px;align-items:center;margin-bottom:9px}
+.dice-btn{background:none;border:1.5px solid rgba(201,169,110,.35);border-radius:10px;width:38px;height:38px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .35s;flex-shrink:0}
+.dice-btn:active{transform:rotate(360deg) scale(.9)}
+.dice-hint{font-family:var(--font-serif);font-style:italic;color:var(--gold);font-size:.85rem;flex:1}
+.mic-btn{display:flex;align-items:center;gap:8px;padding:9px 14px;border:1.5px solid rgba(201,169,110,.3);border-radius:11px;background:none;font-family:var(--font-serif);font-size:.82rem;color:var(--muted);cursor:pointer;width:100%;transition:all .2s;margin-bottom:9px}
+.mic-btn.recording{border-color:#e05;color:#e05;animation:micpulse 1s infinite}
+@keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(238,0,85,.3)}50%{box-shadow:0 0 0 8px rgba(238,0,85,0)}}
+.gen-btn{width:100%;padding:14px;background:linear-gradient(135deg,#c9a96e,#8b5e2a);border:none;border-radius:14px;color:#fff;font-family:var(--font-display);font-size:1.05rem;font-style:italic;letter-spacing:.05em;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.gen-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent)}
+.gen-btn:active{transform:scale(.97)}
+.gen-btn.loading{opacity:.7;pointer-events:none}
+#result-section{display:none}
+#result-section.visible{display:block}
+.hist-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.hist-btn{background:none;border:1px solid rgba(201,169,110,.3);border-radius:7px;width:30px;height:30px;font-size:1rem;cursor:pointer;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.hist-btn:disabled{opacity:.25;cursor:not-allowed}
+.hist-lbl{font-size:.7rem;color:var(--muted);letter-spacing:.1em;font-family:var(--font-serif)}
+.poem-preview{border-radius:16px;padding:22px 18px;min-height:140px;max-height:280px;overflow-y:auto;-webkit-overflow-scrolling:touch;transition:all .4s;position:relative}
+.poem-preview::-webkit-scrollbar{display:none}
+.poem-preview.classic{background:#f7f0e3;font-family:'Cormorant Garamond',serif;color:#2d1f0e;border:1px solid rgba(201,169,110,.18)}
+.poem-preview.nuit{background:#0a0a0a;font-family:'Courier Prime',monospace;color:#f0e8d8;border:1px solid rgba(201,169,110,.08)}
+.poem-preview.pur{background:#ffffff;font-family:'Dancing Script',cursive;color:#111;border:1px solid #ebebeb}
+.poem-text{font-size:1rem;line-height:1.9;font-style:italic;white-space:pre-wrap;word-break:break-word}
+.poem-legend{margin-top:14px;font-size:.75rem;color:var(--muted);letter-spacing:.07em;font-style:normal;font-family:var(--font-serif);border-top:1px solid rgba(201,169,110,.18);padding-top:9px;white-space:pre-wrap}
+.theme-dots{display:flex;gap:14px;justify-content:center;margin:10px 0 2px}
+.theme-dot{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;display:flex;align-items:center;justify-content:center;font-size:.65rem}
+.theme-dot.active{transform:scale(1.2)}
+.dot-classic{background:#f7f0e3;border-color:#c9a96e}
+.dot-nuit{background:#0a0a0a;border-color:#444}
+.dot-pur{background:#fff;border-color:#ddd}
+.action-row{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+.action-btn{flex:1;min-width:70px;padding:9px 6px;border:1.5px solid rgba(201,169,110,.28);border-radius:10px;background:none;font-family:var(--font-serif);font-size:.75rem;color:var(--text);cursor:pointer;transition:all .2s;text-align:center}
+.action-btn:active{background:rgba(201,169,110,.1)}
+.canva-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:12px;background:linear-gradient(135deg,#00c4cc,#0070f3);border:none;border-radius:13px;color:#fff;font-family:var(--font-serif);font-size:.88rem;letter-spacing:.04em;cursor:pointer;margin-top:10px;text-decoration:none;font-weight:600}
+.carousel-slides{display:none;flex-direction:column;gap:9px;margin-top:11px}
+.carousel-slides.visible{display:flex}
+.carousel-slide{background:var(--card);border-radius:12px;padding:15px;border:1px solid rgba(201,169,110,.18);position:relative}
+.slide-num{position:absolute;top:8px;right:10px;font-size:.65rem;color:var(--muted);letter-spacing:.1em}
+.slide-text{font-family:var(--font-serif);font-style:italic;line-height:1.85;font-size:.9rem;white-space:pre-wrap}
+.copy-slide{margin-top:7px;padding:5px 11px;background:none;border:1px solid rgba(201,169,110,.28);border-radius:7px;font-size:.72rem;color:var(--muted);cursor:pointer;font-family:var(--font-serif)}
+.settings-title{font-family:var(--font-display);font-size:1rem;color:var(--gold);margin-bottom:11px;padding-bottom:5px;border-bottom:1px solid rgba(201,169,110,.18)}
+.api-row{display:flex;gap:7px;align-items:center}
+.api-input{flex:1;padding:9px 13px;border:1.5px solid rgba(201,169,110,.28);border-radius:11px;background:var(--card);font-family:var(--font-mono);font-size:.75rem;color:var(--text)}
+.api-input:focus{outline:none;border-color:var(--gold)}
+.api-ok{font-size:.7rem;color:var(--gold);margin-top:4px;font-style:italic;display:none}
+.api-ok.show{display:block}
+.draft-card{background:var(--card);border-radius:var(--radius);padding:15px;margin-bottom:11px;border:1px solid rgba(201,169,110,.13);box-shadow:var(--shadow);cursor:pointer;transition:all .2s}
+.draft-card:active{transform:scale(.98)}
+.draft-title{font-family:var(--font-display);font-size:.95rem;color:var(--gold);margin-bottom:3px}
+.draft-preview{font-family:var(--font-serif);font-style:italic;font-size:.82rem;color:var(--muted);line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.draft-meta{display:flex;gap:8px;align-items:center;margin-top:7px;font-size:.68rem;color:var(--muted)}
+.draft-tag{padding:2px 8px;background:rgba(201,169,110,.1);border-radius:20px;color:var(--gold)}
+.sched-row{display:flex;align-items:center;gap:7px;margin-top:7px}
+.sched-input{padding:4px 9px;border:1px solid rgba(201,169,110,.28);border-radius:7px;background:var(--card);font-family:var(--font-serif);font-size:.74rem;color:var(--text)}
+.week-cal{display:flex;gap:5px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:3px}
+.week-cal::-webkit-scrollbar{display:none}
+.day-col{flex-shrink:0;width:42px;display:flex;flex-direction:column;align-items:center;gap:3px}
+.day-ltr{font-size:.66rem;color:var(--muted);letter-spacing:.05em}
+.day-circ{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(201,169,110,.28);display:flex;align-items:center;justify-content:center;font-size:.76rem;color:var(--muted);cursor:pointer;transition:all .2s}
+.day-circ.has-post{background:rgba(201,169,110,.15);color:var(--gold);border-color:var(--gold)}
+.day-circ.today{background:var(--gold);color:#fff;border-color:var(--gold)}
+.day-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.empty-state{text-align:center;padding:40px 20px}
+.empty-icon{font-size:2.5rem;margin-bottom:11px}
+.empty-text{font-family:var(--font-serif);font-style:italic;color:var(--muted);font-size:.9rem;line-height:1.7}
+#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--dark);color:#f5efe6;padding:9px 22px;border-radius:30px;font-family:var(--font-serif);font-size:.82rem;transition:transform .3s ease;z-index:1000;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+#toast.show{transform:translateX(-50%) translateY(0)}
+body.theme-nuit #toast{background:#2a1f10}
+.bottom-nav{display:flex;background:var(--card);border-top:1px solid rgba(201,169,110,.13);padding-bottom:env(safe-area-inset-bottom);flex-shrink:0;backdrop-filter:blur(10px)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 4px 7px;cursor:pointer;border:none;background:none;transition:all .2s}
+.nav-item:active{transform:scale(.9)}
+.nav-icon{font-size:1.25rem}
+.nav-lbl{font-size:.58rem;color:var(--muted);letter-spacing:.08em;font-family:var(--font-serif);text-transform:uppercase}
+.nav-item.active .nav-lbl{color:var(--gold)}
+@keyframes slideUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+.page.active .card{animation:slideUp .35s ease both}
+.page.active .card:nth-child(2){animation-delay:.06s}
+.page.active .card:nth-child(3){animation-delay:.11s}
+.loading-dots{display:inline-flex;gap:4px;align-items:center}
+.loading-dots span{width:5px;height:5px;background:#fff;border-radius:50%;animation:dot 1.2s infinite}
+.loading-dots span:nth-child(2){animation-delay:.2s}
+.loading-dots span:nth-child(3){animation-delay:.4s}
+@keyframes dot{0%,80%,100%{transform:scale(.5);opacity:.4}40%{transform:scale(1);opacity:1}}
+input[type=text].field-input{width:100%;padding:9px 13px;border:1.5px solid rgba(201,169,110,.28);border-radius:11px;background:var(--card);font-family:var(--font-serif);font-size:.88rem;color:var(--text)}
+input[type=text].field-input:focus{outline:none;border-color:var(--gold)}
+</style>
 </head>
 <body>
-    <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+<div id="splash">
+  <div class="splash-honey">🍯</div>
+  <div class="splash-title">Miels Du Soir</div>
+  <div class="splash-sub">Atelier Poétique</div>
+</div>
 
-        const App = () => {
-            const [view, setView] = useState('atelier');
-            const [apiKey, setApiKey] = useState(localStorage.getItem('miels_key') || '');
-            const [showSettings, setShowSettings] = useState(!localStorage.getItem('miels_key'));
-            const [topic, setTopic] = useState('');
-            const [format, setFormat] = useState('POÈMES');
-            const [style, setStyle] = useState('RUPI KAUR');
-            const [tone, setTone] = useState('NOSTALGIQUE');
-            const [loading, setLoading] = useState(false);
-            const [result, setResult] = useState(null);
-            const [saved, setSaved] = useState(JSON.parse(localStorage.getItem('miels_archive') || '[]'));
+<div id="app">
+  <header>
+    <div class="logo">Miels Du Soir <small>🍯</small></div>
+    <div class="header-right">
+      <button class="icon-btn" onclick="showPage('settings')">⚙️</button>
+    </div>
+  </header>
 
-            // Données complètes
-            const formats = ["POÈMES", "PROSES", "HAÏKU"];
-            const poets = ["RUPI KAUR", "BAUDELAIRE", "BOBIN", "RIMBAUD", "ÉLUARD", "GRAND CORPS MALADE", "DARWICH", "DICKINSON", "CÉCILE COULON", "ANDRÉE CHEDID", "POÉSIE DE RUE", "HAÏKU ZEN"];
-            const tones = ["NOSTALGIQUE", "TOXIQUE COOL", "SOLAIRE", "MÉLANCOLIQUE", "ÉPERDU", "SENSUEL", "MYSTIQUE", "AMOUREUX", "RÊVEUR", "CYNIQUE", "LUMINEUX", "GOTHIQUE"];
+  <div class="tabs">
+    <button class="tab active" data-page="create">✍️ Créer</button>
+    <button class="tab" data-page="drafts">📂 Brouillons</button>
+    <button class="tab" data-page="settings">⚙️ Réglages</button>
+  </div>
 
-            const saveApiKey = (val) => {
-                localStorage.setItem('miels_key', val.trim());
-                setApiKey(val.trim());
-                setShowSettings(false);
-            };
+  <!-- PAGE CRÉER -->
 
-            const generate = async () => {
-                if (!topic.trim()) return;
-                setLoading(true);
-                try {
-                    const prompt = `Tu es "Miels". Rédige un écrit poétique. 
-                    Format: ${format}. Style: ${style}. Ton: ${tone}. 
-                    Sois bref et percutant. Sépare par des doubles sauts de ligne si nécessaire.
-                    Réponds UNIQUEMENT en JSON: {"title": "Titre", "content": "Le texte ici..."}`;
-                    
-                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: `Sujet : ${topic}\n\n${prompt}` }] }], generationConfig: { responseMimeType: "application/json" } })
-                    });
-                    const data = await res.json();
-                    const content = JSON.parse(data.candidates[0].content.parts[0].text);
-                    setResult(content);
-                } catch (e) { alert("Erreur de connexion API."); }
-                setLoading(false);
-            };
+  <div class="page active" id="page-create">
+    <div class="scroll-area">
 
-            const archivePoem = () => {
-                const newArchive = [{...result, id: Date.now(), date: new Date().toLocaleDateString()}, ...saved];
-                setSaved(newArchive);
-                localStorage.setItem('miels_archive', JSON.stringify(newArchive));
-                setResult(null);
-                setTopic('');
-                alert("Poème archivé.");
-            };
+```
+  <div class="card">
+    <div class="lbl">Style</div>
+    <div class="style-pills">
+      <button class="pill active" data-style="Poème">📜 Poème</button>
+      <button class="pill" data-style="Prose">📖 Prose</button>
+      <button class="pill" data-style="Haïku">🌸 Haïku</button>
+    </div>
+    <div class="lbl">S'inspirer de</div>
+    <select id="poet-select">
+      <option value="">— Choisir un poète —</option>
+      <optgroup label="Classiques">
+        <option>Pablo Neruda</option><option>Rumi</option><option>Khalil Gibran</option>
+        <option>Victor Hugo</option><option>Arthur Rimbaud</option><option>Paul Verlaine</option>
+        <option>Charles Baudelaire</option><option>Emily Dickinson</option><option>Sylvia Plath</option>
+        <option>Walt Whitman</option><option>Apollinaire</option><option>Lamartine</option>
+      </optgroup>
+      <optgroup label="Instapoets">
+        <option>Rupi Kaur</option><option>Atticus</option><option>R.H. Sin</option>
+        <option>Nikita Gill</option><option>Lang Leav</option><option>r.m. drake</option>
+        <option>Amanda Lovelace</option><option>Alfa Poetry</option><option>Najwa Zebian</option>
+        <option>Christopher Poindexter</option><option>Tyler Knott Gregson</option>
+        <option>Beau Taplin</option><option>Pierre Jeanty</option><option>Yung Pueblo</option>
+        <option>Pavana</option><option>Mirtha Michelle</option><option>Wilder Poetry</option>
+      </optgroup>
+      <optgroup label="Francophones">
+        <option>Jacques Prévert</option><option>Léopold Sédar Senghor</option>
+        <option>Aimé Césaire</option><option>Andrée Chedid</option><option>Marie Noël</option>
+      </optgroup>
+    </select>
+    <div class="lbl">Tonalité</div>
+    <select id="tone-select">
+      <option value="">— Choisir une tonalité —</option>
+      <optgroup label="Désir &amp; Passion">
+        <option>Éperdue, amoureuse, sensuelle, érotique</option>
+        <option>Amoureux, mélancolique, passion brûlante</option>
+        <option>Désir doux, timide, frémissant</option>
+      </optgroup>
+      <optgroup label="Ombre &amp; Intensité">
+        <option>Toxique cool, triste, nostalgique</option>
+        <option>Rage douce, douleur élégante</option>
+        <option>Mélancolie profonde, solitude choisie</option>
+      </optgroup>
+      <optgroup label="Lumière &amp; Rêve">
+        <option>Rêveur, instapoet, doux</option>
+        <option>Poétique, lumineux, plein d'espoir</option>
+        <option>Mystique, envoûtant, hypnotique</option>
+      </optgroup>
+      <optgroup label="Puissance">
+        <option>Fort, affirmé, libéré</option>
+        <option>Sauvage, brut, viscéral</option>
+      </optgroup>
+    </select>
+  </div>
 
-            const randomPrompt = () => {
-                const ideas = ["L'odeur de la pluie sur le bitume", "Un dernier regard sur le quai", "Le silence d'un message non envoyé", "Une cicatrice qui ne fait plus mal", "L'instant précis où l'on s'oublie"];
-                setTopic(ideas[Math.floor(Math.random() * ideas.length)]);
-            };
+  <div class="card">
+    <div class="row">
+      <div class="lbl" style="margin:0">Thème / Idée</div>
+    </div>
+    <div class="row">
+      <button class="dice-btn" onclick="rollDice()">🎲</button>
+      <div class="dice-hint" id="dice-hint">Lance le dé pour l'inspiration…</div>
+    </div>
+    <button class="mic-btn" id="mic-btn" onclick="toggleMic()">
+      <span id="mic-icon">🎤</span>
+      <span id="mic-lbl">Dicter mon idée à voix haute</span>
+    </button>
+    <textarea id="prompt-input" rows="3" placeholder="Ex: la lumière d'automne sur les feuilles mortes…"></textarea>
+  </div>
 
-            return (
-                <div className="flex flex-col min-h-[100dvh] max-w-lg mx-auto overflow-hidden">
-                    
-                    {/* Ecran de configuration Clé API */}
-                    {showSettings && (
-                        <div className="fixed inset-0 z-[100] bg-[#FBF9F4] flex flex-col items-center justify-center p-10 text-center space-y-8 animate-fade">
-                            <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center text-white shadow-xl">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3-3.5 3.5z"/></svg>
-                            </div>
-                            <div className="space-y-2">
-                                <h2 className="font-serif text-3xl italic">Clé API requise</h2>
-                                <p className="text-[10px] text-stone-400 uppercase font-bold tracking-[0.2em]">Pour animer votre plume numérique</p>
-                            </div>
-                            <input 
-                                type="password" 
-                                placeholder="Coller votre clé Gemini ici"
-                                id="api_field"
-                                className="w-full bg-white rounded-3xl p-5 text-center text-sm shadow-sm outline-none border border-stone-100"
-                            />
-                            <button onClick={() => saveApiKey(document.getElementById('api_field').value)} className="w-full py-5 btn-pour shadow-lg">Activer</button>
-                        </div>
-                    )}
+  <button class="gen-btn" id="gen-btn" onclick="generatePoem()">
+    <span id="gen-label">✨ Écrire pour moi</span>
+  </button>
 
-                    {/* Header conforme à l'image */}
-                    <header className="safe-pt px-8 py-4 flex justify-between items-center bg-[#FBF9F4]/80 backdrop-blur-lg sticky top-0 z-40">
-                        <div className="flex items-center gap-3" onClick={() => {setResult(null); setView('atelier');}}>
-                            <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white shadow-md">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/></svg>
-                            </div>
-                            <span className="font-serif font-bold text-2xl italic tracking-tight">Miels</span>
-                        </div>
-                        <div className="nav-toggle flex">
-                            <button onClick={() => setView('atelier')} className={`nav-btn ${view==='atelier'?'active':'inactive'}`}>Atelier</button>
-                            <button onClick={() => setView('brouillons')} className={`nav-btn ${view==='brouillons'?'active':'inactive'}`}>Carnet</button>
-                        </div>
-                    </header>
+  <div id="result-section">
+    <div class="card" style="margin-top:12px">
+      <div class="hist-nav">
+        <button class="hist-btn" id="hist-prev" onclick="navHist(-1)" disabled>‹</button>
+        <span class="hist-lbl" id="hist-lbl">Ma création</span>
+        <button class="hist-btn" id="hist-next" onclick="navHist(1)" disabled>›</button>
+      </div>
+      <div class="poem-preview classic" id="poem-preview">
+        <div class="poem-text" id="poem-text"></div>
+        <div class="poem-legend" id="poem-legend"></div>
+      </div>
+      <div class="theme-dots">
+        <div class="theme-dot dot-classic active" onclick="setPrevTheme('classic',this)" title="Classique">🍂</div>
+        <div class="theme-dot dot-nuit" onclick="setPrevTheme('nuit',this)" title="Nuit">🌙</div>
+        <div class="theme-dot dot-pur" onclick="setPrevTheme('pur',this)" title="Pur">☁️</div>
+      </div>
+      <div class="action-row">
+        <button class="action-btn" onclick="copyPoem()">📋 Copier</button>
+        <button class="action-btn" onclick="saveDraft()">💾 Brouillon</button>
+        <button class="action-btn" onclick="makeCarousel()">📱 Carrousel</button>
+        <button class="action-btn" onclick="generatePoem()">↺ Regen.</button>
+      </div>
+      <a class="canva-btn" href="https://www.canva.com/fr_fr/" target="_blank">🎨 Ouvrir dans Canva</a>
+    </div>
+    <div id="carousel-section" class="carousel-slides">
+      <div class="card" style="margin-top:0">
+        <div class="lbl" style="margin-bottom:9px">📱 Carrousel Instagram</div>
+        <div id="carousel-container"></div>
+      </div>
+    </div>
+  </div>
+</div>
+```
 
-                    {/* Zone de contenu principale */}
-                    <main className="flex-1 px-8 py-6 overflow-y-auto no-scrollbar">
-                        {view === 'atelier' ? (
-                            <div className="space-y-10 animate-fade">
-                                {!result || loading ? (
-                                    <div className="space-y-8">
-                                        <div className="space-y-1">
-                                            <h2 className="text-[44px] font-serif leading-tight">L'encre du crépuscule.</h2>
-                                            <p className="text-[#BCB9B4] text-[16px] font-serif italic">Écrivez ce que le silence ne dit pas.</p>
-                                        </div>
+  </div>
 
-                                        {/* Input blanc style capture */}
-                                        <div className="input-card relative p-10 h-64 border border-white">
-                                            <textarea 
-                                                value={topic}
-                                                onChange={(e) => setTopic(e.target.value)}
-                                                placeholder="Un sentiment, un lieu, un oubli..."
-                                                className="w-full h-full bg-transparent border-none outline-none resize-none text-[20px] font-serif placeholder:text-[#BCB9B4] leading-relaxed"
-                                            />
-                                            <button onClick={randomPrompt} className="absolute bottom-8 right-10 text-[#BCB9B4] hover:text-black active:scale-90 transition-all">
-                                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M7 7h.01"/><path d="M17 7h.01"/><path d="M7 17h.01"/><path d="M17 17h.01"/><path d="M12 12h.01"/></svg>
-                                            </button>
-                                        </div>
+  <!-- PAGE BROUILLONS -->
 
-                                        {/* Sélecteurs styles et tonalités */}
-                                        <div className="space-y-4">
-                                            <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-                                                {formats.map(f => (
-                                                    <button key={f} onClick={() => setFormat(f)} className={`px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${format === f ? 'bg-black text-white' : 'bg-white text-[#BCB9B4]'}`}>{f}</button>
-                                                ))}
-                                            </div>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <select value={style} onChange={(e) => setStyle(e.target.value)} className="select-custom">
-                                                    {poets.map(p => <option key={p} value={p}>{p}</option>)}
-                                                </select>
-                                                <select value={tone} onChange={(e) => setTone(e.target.value)} className="select-custom">
-                                                    {tones.map(t => <option key={t} value={t}>{t}</option>)}
-                                                </select>
-                                            </div>
-                                        </div>
+  <div class="page" id="page-drafts">
+    <div class="scroll-area">
+      <div class="card">
+        <div class="lbl" style="margin-bottom:9px">Calendrier éditorial</div>
+        <div class="week-cal" id="week-cal"></div>
+      </div>
+      <div id="drafts-list"></div>
+    </div>
+  </div>
 
-                                        <button 
-                                            onClick={generate}
-                                            disabled={loading || !topic.trim()}
-                                            className="w-full py-8 btn-pour shadow-lg disabled:opacity-40"
-                                        >
-                                            {loading ? "Infusion..." : "Faire couler le miel"}
-                                        </button>
-                                    </div>
-                                ) : (
-                                    /* Résultat généré */
-                                    <div className="space-y-8 animate-fade pb-10">
-                                        <div className="bg-white rounded-[40px] p-12 shadow-xl min-h-[450px] flex flex-col justify-center text-center relative overflow-hidden">
-                                            <div className="absolute inset-0 opacity-[0.04] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]"></div>
-                                            <div className="relative z-10 space-y-8 overflow-y-auto max-h-[380px] no-scrollbar px-2">
-                                                <h3 className="text-sm font-serif italic text-[#BCB9B4] uppercase tracking-[0.3em]">{result.title}</h3>
-                                                <p className="text-[26px] font-serif leading-relaxed italic whitespace-pre-line text-stone-800">
-                                                    {result.content}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="flex gap-4">
-                                            <button onClick={() => setResult(null)} className="flex-1 py-6 rounded-full border border-stone-200 text-[10px] font-bold uppercase tracking-widest text-stone-400">Nouvelle plume</button>
-                                            <button onClick={archivePoem} className="flex-1 py-6 bg-black text-white rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg">Sauvegarder</button>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
-                            /* Liste des brouillons */
-                            <div className="space-y-6 animate-fade pb-24">
-                                <h2 className="text-3xl font-serif italic mb-8">Carnet d'archives</h2>
-                                {saved.length === 0 ? <p className="text-stone-300 italic text-center py-20">Rien n'a encore été écrit.</p> : 
-                                    saved.map(item => (
-                                        <div key={item.id} className="bg-white rounded-[35px] p-8 shadow-sm border border-white active:scale-95 transition-all" onClick={() => {setResult(item); setView('atelier');}}>
-                                            <div className="flex justify-between items-center mb-3">
-                                                <span className="text-[9px] font-bold text-[#BCB9B4] uppercase tracking-widest">{item.date}</span>
-                                                <button onClick={(e) => { e.stopPropagation(); setSaved(saved.filter(i => i.id !== item.id)); }} className="text-stone-100 hover:text-red-400"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-                                            </div>
-                                            <h3 className="font-serif text-xl mb-2 italic">{item.title}</h3>
-                                            <p className="text-stone-400 text-[13px] italic line-clamp-2 leading-relaxed">{item.content}</p>
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                        )}
-                    </main>
+  <!-- PAGE RÉGLAGES -->
 
-                    {/* Zone de confort bas iPhone 16 */}
-                    <footer className="safe-pb h-2 bg-transparent"></footer>
-                </div>
-            );
-        };
+  <div class="page" id="page-settings">
+    <div class="scroll-area">
+      <div class="card">
+        <div class="settings-title">🔑 Clés API</div>
+        <div class="lbl">Claude (Anthropic)</div>
+        <div class="api-row">
+          <input type="password" class="api-input" id="claude-key" placeholder="sk-ant-api03-…" oninput="saveKey('claude',this.value)">
+          <button class="icon-btn" onclick="toggleVis('claude-key')">👁</button>
+        </div>
+        <div class="api-ok" id="ok-claude">✓ Clé enregistrée</div>
+        <br>
+        <div class="lbl">Gemini (Google)</div>
+        <div class="api-row">
+          <input type="password" class="api-input" id="gemini-key" placeholder="AIzaSy…" oninput="saveKey('gemini',this.value)">
+          <button class="icon-btn" onclick="toggleVis('gemini-key')">👁</button>
+        </div>
+        <div class="api-ok" id="ok-gemini">✓ Clé enregistrée</div>
+        <br>
+        <div class="lbl">Fournisseur actif</div>
+        <select id="api-provider" onchange="localStorage.setItem('provider',this.value)">
+          <option value="claude">Claude (Anthropic)</option>
+          <option value="gemini">Gemini (Google)</option>
+        </select>
+      </div>
 
-            const root = ReactDOM.createRoot(document.getElementById('root'));
-            root.render(<App />);
-    </script>
+```
+  <div class="card">
+    <div class="settings-title">🎨 Thème global</div>
+    <div class="style-pills">
+      <button class="pill active" id="thbtn-classic" onclick="setTheme('',this)">🍂 Classique</button>
+      <button class="pill" id="thbtn-nuit" onclick="setTheme('theme-nuit',this)">🌙 Nuit</button>
+      <button class="pill" id="thbtn-pur" onclick="setTheme('theme-pur',this)">☁️ Pur</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="settings-title">✍️ Ma Signature</div>
+    <div class="lbl">Nom de plume</div>
+    <input type="text" class="field-input" id="pen-name" placeholder="— votre nom —" oninput="localStorage.setItem('penName',this.value)" style="width:100%;padding:9px 13px;border:1.5px solid rgba(201,169,110,.28);border-radius:11px;background:var(--card);font-family:var(--font-serif);font-size:.88rem;color:var(--text);margin-bottom:10px">
+    <div class="lbl">Hashtags / légende par défaut</div>
+    <textarea id="default-legend" rows="3" placeholder="#poesie #instapoet #mieldusoir" style="min-height:60px" oninput="localStorage.setItem('legend',this.value)"></textarea>
+  </div>
+
+  <div class="card">
+    <div class="settings-title">ℹ️ Miels Du Soir</div>
+    <p style="font-family:var(--font-serif);font-style:italic;color:var(--muted);font-size:.86rem;line-height:1.75">Votre atelier poétique personnel. Créez, inspirez-vous, publiez — chaque soir, comme un rituel doux et nécessaire.</p>
+  </div>
+</div>
+```
+
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-page="create" onclick="showPage('create')">
+      <span class="nav-icon">✍️</span><span class="nav-lbl">Créer</span>
+    </button>
+    <button class="nav-item" data-page="drafts" onclick="showPage('drafts')">
+      <span class="nav-icon">📂</span><span class="nav-lbl">Brouillons</span>
+    </button>
+    <button class="nav-item" data-page="settings" onclick="showPage('settings')">
+      <span class="nav-icon">⚙️</span><span class="nav-lbl">Réglages</span>
+    </button>
+  </nav>
+</div>
+
+<div id="toast"></div>
+
+<script>
+let currentStyle='Poème',currentPoem='',currentLegend='',poemHistory=[],histIdx=-1,isRecording=false,recog=null;
+let drafts=JSON.parse(localStorage.getItem('drafts')||'[]');
+
+const THEMES=["la lumière d'automne sur les feuilles mortes","l'attente entre deux messages","une bouche qui ne dit plus mon prénom","les nuits où le silence devient bruit","partir sans se retourner","le goût du miel sur des lèvres froides","un amour toxique comme un parfum qu'on aime trop","les mains qui se cherchent dans le noir","l'heure bleue entre chien et loup","une lettre jamais envoyée","le cœur qui bat trop vite pour rien","les fleurs qui poussent dans les ruines","se perdre pour mieux se retrouver","les derniers mots d'une histoire","la brûlure douce d'un souvenir","l'odeur de pluie sur la peau chaude","danser seule dans une pièce vide","les cicatrices invisibles","un coucher de soleil vu à deux","l'insomnie comme une forme d'amour","tout ce qu'on ne s'est pas dit","les yeux qui racontent ce que la bouche tait","l'été qu'on n'a pas eu","revenir à soi après quelqu'un","le dernier baiser qu'on n'a pas donné"];
+
+window.onload=()=>{
+  setTimeout(()=>{
+    document.getElementById('splash').classList.add('hide');
+    setTimeout(()=>document.getElementById('splash').style.display='none',900);
+  },1900);
+  loadSettings();renderCal();renderDrafts();
+};
+
+function loadSettings(){
+  const ck=localStorage.getItem('claude_key'),gk=localStorage.getItem('gemini_key');
+  const leg=localStorage.getItem('legend'),pn=localStorage.getItem('penName'),prov=localStorage.getItem('provider'),th=localStorage.getItem('theme');
+  if(ck){document.getElementById('claude-key').value=ck;document.getElementById('ok-claude').classList.add('show')}
+  if(gk){document.getElementById('gemini-key').value=gk;document.getElementById('ok-gemini').classList.add('show')}
+  if(leg)document.getElementById('default-legend').value=leg;
+  if(pn)document.getElementById('pen-name').value=pn;
+  if(prov)document.getElementById('api-provider').value=prov;
+  if(th){document.body.className=th;document.querySelectorAll('#page-settings .pill').forEach(p=>p.classList.remove('active'));const btn=document.getElementById('thbtn-'+th.replace('theme-','')||'classic');if(btn)btn.classList.add('active')}
+}
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab,.nav-item').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('[data-page="'+name+'"]').forEach(el=>el.classList.add('active'));
+  if(name==='drafts'){renderCal();renderDrafts();}
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>showPage(t.dataset.page)));
+
+document.querySelectorAll('.pill[data-style]').forEach(pill=>{
+  pill.addEventListener('click',()=>{
+    document.querySelectorAll('.pill[data-style]').forEach(p=>p.classList.remove('active'));
+    pill.classList.add('active');currentStyle=pill.dataset.style;
+  });
+});
+
+function rollDice(){
+  const th=THEMES[Math.floor(Math.random()*THEMES.length)];
+  const btn=document.querySelector('.dice-btn');
+  btn.style.transform='rotate(360deg) scale(1.15)';
+  setTimeout(()=>btn.style.transform='',400);
+  const d=document.getElementById('dice-hint');
+  d.style.opacity='0';
+  setTimeout(()=>{d.textContent=th;d.style.opacity='1';d.style.transition='opacity .2s';document.getElementById('prompt-input').value=th;},200);
+}
+
+function toggleMic(){
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){showToast('Dictaphone non supporté ici');return}
+  if(isRecording){recog.stop();return}
+  recog=new(window.SpeechRecognition||window.webkitSpeechRecognition)();
+  recog.lang='fr-FR';recog.continuous=false;recog.interimResults=false;
+  recog.onresult=e=>{document.getElementById('prompt-input').value=e.results[0][0].transcript;showToast('✓ Idée captée !')};
+  recog.onend=()=>{isRecording=false;document.getElementById('mic-btn').classList.remove('recording');document.getElementById('mic-icon').textContent='🎤';document.getElementById('mic-lbl').textContent='Dicter mon idée à voix haute'};
+  recog.start();isRecording=true;
+  document.getElementById('mic-btn').classList.add('recording');
+  document.getElementById('mic-icon').textContent='⏹';document.getElementById('mic-lbl').textContent='Appuyez pour arrêter…';
+}
+
+async function generatePoem(){
+  const poet=document.getElementById('poet-select').value;
+  const tone=document.getElementById('tone-select').value;
+  const prompt=document.getElementById('prompt-input').value.trim();
+  const provider=localStorage.getItem('provider')||'claude';
+  const btn=document.getElementById('gen-btn');
+  btn.classList.add('loading');
+  document.getElementById('gen-label').innerHTML='<span class="loading-dots"><span></span><span></span><span></span></span>';
+  
+  const sys=`Tu es un poète inspiré qui écrit en français. Tu crées des textes originaux de haute qualité pour Instagram, sans jamais mentionner que tu es une intelligence artificielle. Écris uniquement le texte poétique, sans titre entre guillemets, sans introduction ni explication. Pour un Haïku: exactement 3 lignes (5-7-5 syllabes). Pour un Poème: 3 à 5 strophes. Pour une Prose: un paragraphe dense et lyrique. À la fin, ajoute deux sauts de ligne puis une courte légende (1-2 phrases) commençant par LÉGENDE: pour accompagner la publication Instagram.`;
+  const user=`Style: ${currentStyle}\n${poet?'Inspire-toi de: '+poet:''}\n${tone?'Tonalité: '+tone:''}\n${prompt?'Thème: '+prompt:'Thème libre, poétique et fort'}\n\nÉcris maintenant.`;
+  
+  let poem='',legend='';
+  try{
+    if(provider==='claude'){
+      const k=localStorage.getItem('claude_key');
+      if(!k)throw new Error('no_key');
+      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-opus-4-6',max_tokens:900,system:sys,messages:[{role:'user',content:user}]})});
+      const d=await r.json();
+      if(d.error)throw new Error(d.error.message);
+      poem=d.content[0].text;
+    }else{
+      const k=localStorage.getItem('gemini_key');
+      if(!k)throw new Error('no_key');
+      const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${k}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:sys+'\n\n'+user}]}]})});
+      const d=await r.json();
+      poem=d.candidates[0].content.parts[0].text;
+    }
+    const lm=poem.match(/\n\nLÉGENDE:\s*(.+?)(?:\n|$)/s);
+    if(lm){legend=lm[1].trim();poem=poem.replace(/\n\nLÉGENDE:.*$/s,'').trim();}
+  }catch(e){
+    if(e.message==='no_key'){showToast('⚠️ Ajoutez votre clé API dans Réglages');btn.classList.remove('loading');document.getElementById('gen-label').textContent='✨ Écrire pour moi';return}
+    poem=getDemo(currentStyle);legend=getDemoLeg();
+  }
+  
+  const saved=localStorage.getItem('legend')||'';
+  const pn=localStorage.getItem('penName')||'';
+  if(pn||saved)legend=(legend?legend+'\n\n':'')+(pn?'— '+pn+'\n':'')+saved;
+  
+  currentPoem=poem;currentLegend=legend;
+  poemHistory.unshift({poem,legend});
+  if(poemHistory.length>5)poemHistory.pop();
+  histIdx=0;updateHistNav();
+  displayPoem(poem,legend);
+  btn.classList.remove('loading');document.getElementById('gen-label').textContent='✨ Écrire pour moi';
+  document.getElementById('carousel-section').classList.remove('visible');
+  setTimeout(()=>document.getElementById('result-section').scrollIntoView({behavior:'smooth',block:'start'}),120);
+}
+
+function displayPoem(poem,legend){
+  document.getElementById('poem-text').textContent=poem;
+  const leg=document.getElementById('poem-legend');
+  leg.textContent=legend||'';leg.style.display=legend?'block':'none';
+  document.getElementById('result-section').classList.add('visible');
+  const p=document.getElementById('poem-preview');p.style.opacity='0';
+  setTimeout(()=>{p.style.transition='opacity .45s';p.style.opacity='1'},50);
+}
+
+function updateHistNav(){
+  document.getElementById('hist-prev').disabled=histIdx>=poemHistory.length-1;
+  document.getElementById('hist-next').disabled=histIdx<=0;
+  document.getElementById('hist-lbl').textContent=poemHistory.length>1?`Version ${histIdx+1}/${poemHistory.length}`:'Ma création';
+}
+function navHist(dir){histIdx=Math.max(0,Math.min(poemHistory.length-1,histIdx+dir));const e=poemHistory[histIdx];displayPoem(e.poem,e.legend);updateHistNav();}
+
+function setPrevTheme(th,el){
+  document.getElementById('poem-preview').className='poem-preview '+th;
+  document.querySelectorAll('.theme-dot').forEach(d=>d.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function makeCarousel(){
+  if(!currentPoem){showToast('Générez un poème d\'abord');return}
+  const lines=currentPoem.split('\n').filter(l=>l.trim());
+  const cs=Math.ceil(lines.length/3);
+  const slides=[];
+  for(let i=0;i<3;i++){const c=lines.slice(i*cs,(i+1)*cs).join('\n');if(c.trim())slides.push(c);}
+  if(currentLegend&&slides.length)slides.push(currentLegend);
+  document.getElementById('carousel-container').innerHTML=slides.map((s,i)=>`
+    <div class="carousel-slide">
+      <div class="slide-num">Slide ${i+1}/${slides.length}</div>
+      <div class="slide-text">${s.replace(/</g,'&lt;')}</div>
+      <button class="copy-slide" onclick='copyText(${JSON.stringify(s)})'>📋 Copier</button>
+    </div>`).join('');
+  document.getElementById('carousel-section').classList.add('visible');
+  showToast('📱 Carrousel prêt !');
+  setTimeout(()=>document.getElementById('carousel-section').scrollIntoView({behavior:'smooth'}),100);
+}
+
+function copyPoem(){copyText(currentPoem+(currentLegend?'\n\n'+currentLegend:''));}
+function copyText(t){
+  navigator.clipboard.writeText(t).then(()=>showToast('✓ Copié !')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✓ Copié !');
+  });
+}
+
+function saveDraft(){
+  if(!currentPoem)return;
+  const d={id:Date.now(),poem:currentPoem,legend:currentLegend,style:currentStyle,poet:document.getElementById('poet-select').value,tone:document.getElementById('tone-select').value,date:new Date().toLocaleDateString('fr-FR'),postDate:null};
+  drafts.unshift(d);localStorage.setItem('drafts',JSON.stringify(drafts));renderDrafts();showToast('💾 Sauvegardé !');
+}
+
+function renderDrafts(){
+  const c=document.getElementById('drafts-list');
+  if(!drafts.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📝</div><div class="empty-text">Vos brouillons apparaîtront ici.<br>Créez votre premier poème ✨</div></div>';return;}
+  c.innerHTML=drafts.map(d=>`
+    <div class="draft-card" onclick="loadDraft(${d.id})">
+      <div class="draft-title">${d.style}${d.tone?' · '+d.tone.split(',')[0]:''}</div>
+      <div class="draft-preview">${d.poem.replace(/</g,'&lt;')}</div>
+      <div class="draft-meta">
+        <span class="draft-tag">${d.style}</span>
+        <span>${d.date}</span>
+        ${d.postDate?'<span>📅 '+d.postDate+'</span>':''}
+        <button onclick="event.stopPropagation();delDraft(${d.id})" style="margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.78rem;padding:3px 6px">✕</button>
+      </div>
+      <div class="sched-row">
+        <span style="font-size:.68rem;color:var(--muted);font-family:var(--font-serif)">Poster le :</span>
+        <input type="date" class="sched-input" value="${d.postDate||''}" onchange="setPostDate(${d.id},this.value)" onclick="event.stopPropagation()">
+      </div>
+    </div>`).join('');
+}
+function loadDraft(id){const d=drafts.find(x=>x.id===id);if(!d)return;currentPoem=d.poem;currentLegend=d.legend;displayPoem(d.poem,d.legend);showPage('create');showToast('📖 Brouillon chargé')}
+function delDraft(id){drafts=drafts.filter(d=>d.id!==id);localStorage.setItem('drafts',JSON.stringify(drafts));renderDrafts();}
+function setPostDate(id,date){const d=drafts.find(x=>x.id===id);if(d){d.postDate=date?new Date(date).toLocaleDateString('fr-FR'):null;localStorage.setItem('drafts',JSON.stringify(drafts));renderCal();}}
+
+function renderCal(){
+  const c=document.getElementById('week-cal');
+  const days=['L','M','M','J','V','S','D'],today=new Date();
+  const mon=new Date(today);const diff=today.getDay()===0?-6:1-today.getDay();mon.setDate(today.getDate()+diff);
+  c.innerHTML=days.map((day,i)=>{
+    const d=new Date(mon);d.setDate(mon.getDate()+i);
+    const ds=d.toLocaleDateString('fr-FR');
+    const isToday=d.toDateString()===today.toDateString();
+    const has=drafts.some(x=>x.postDate===ds);
+    return`<div class="day-col"><div class="day-ltr">${day}</div><div class="day-circ ${isToday?'today':''} ${has?'has-post':''}">${d.getDate()}</div>${has?'<div class="day-dot"></div>':'<div style="height:7px"></div>'}</div>`;
+  }).join('');
+}
+
+function setTheme(cls,btn){
+  document.body.className=cls;
+  document.querySelectorAll('#page-settings .pill:not([data-style])').forEach(p=>p.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  localStorage.setItem('theme',cls);
+}
+
+function saveKey(type,val){localStorage.setItem(type+'_key',val);document.getElementById('ok-'+type).classList.toggle('show',val.length>8);}
+function toggleVis(id){const el=document.getElementById(id);el.type=el.type==='password'?'text':'password';}
+
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+function getDemo(style){
+  const d={
+    'Haïku':["tes mains sur ma peau\ncomme la pluie sur les fleurs\net le reste s'efface","soir qui se dissout\nton prénom dans ma bouche encore\nle silence, après","lumière d'automne\ntu t'en vas comme elle aussi\nles feuilles restent là"],
+    'Prose':["Il y a des amours qui brûlent comme du papier — vite, et magnifiquement. Le tien était de cette nature. Je me souviens du soir où tu as posé ta main dans ma main, sans rien dire. La ville continuait. Le monde continuait. Mais quelque chose, entre nous, venait de prendre feu.","Je t'ai aimé comme on aime les villes qu'on ne revient jamais habiter. Intensément. Avec la certitude obscure que ce serait bref et beau et que je m'en souviendrais longtemps, assise dans d'autres lumières."],
+    'Poème':["Tu es partie un mardi\ncomme une chanson qui finit\nsans prévenir.\n\nJ'ai cherché ton ombre\ndans toutes les heures bleues\nque je ne savais plus habiter.\n\nIl reste ton parfum\nsur un coussin que je retourne\npour ne plus le sentir—\net pour le sentir encore.","Ce soir le ciel est ton prénom\nécrit en orange sur mes lèvres.\n\nJ'apprends la langue du manque,\ncelle qu'on parle seulement\nquand il n'est plus là\npour nous répondre.\n\nTu m'as laissé ta lumière.\nJe ne sais pas quoi en faire."]
+  };
+  const list=d[style]||d['Poème'];return list[Math.floor(Math.random()*list.length)];
+}
+function getDemoLeg(){
+  const l=["Certains silences pèsent plus que les mots qu'on n'a pas dits. 🍂","Pour tous ceux qui aiment trop fort et pas assez à la fois. ✨","Le cœur a ses propres saisons. 🌙","Écrire pour ne pas oublier. Publier pour ne pas être seul. 🕯️"];
+  const saved=localStorage.getItem('legend')||'',pn=localStorage.getItem('penName')||'';
+  const base=l[Math.floor(Math.random()*l.length)];
+  return base+(pn?'\n— '+pn:'')+(saved?'\n'+saved:'');
+}
+
+// Theme pills in settings - fix pill click scope
+document.querySelectorAll('#page-settings .style-pills .pill').forEach(p=>{
+  p.addEventListener('click',()=>{
+    document.querySelectorAll('#page-settings .style-pills .pill').forEach(x=>x.classList.remove('active'));
+    p.classList.add('active');
+  });
+});
+</script>
+
 </body>
 </html>
-
